@@ -1,8 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Alert } from 'react-native';
-import { saveDeckTitle } from '../utils/api.js'
+import { addDeck } from '../utils/api.js'
 
-export default class AddDeck extends React.Component {
+export default class AddCard extends React.Component {
 
     state = {
         text: ""
@@ -11,9 +11,8 @@ export default class AddDeck extends React.Component {
     _onPress = () => {
         if(this.state.text !== "")
         {
-            saveDeckTitle(this.state.text)
+            addDeck(this.state.text)
             this.props.navigation.goBack()            
-        
         }
         else{
             Alert.alert(
@@ -29,8 +28,14 @@ export default class AddDeck extends React.Component {
         return (
 
             <View style={styles.container}>
-                <Text style={styles.text}>What's the title of your new deck?</Text>
                 <TextInput
+                    placeholder='Question'
+                    style={styles.input}
+                    onChangeText={(text) => this.setState({ text })}
+                    value={this.state.text}
+                />
+                <TextInput
+                    placeholder='Answer'
                     style={styles.input}
                     onChangeText={(text) => this.setState({ text })}
                     value={this.state.text}
@@ -49,17 +54,13 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     input: {
-        height: 60,
+        height: 40,
         width: 200,
         borderColor: 'gray',
         borderWidth: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        margin: 10
+        margin: 10,
+        textAlign: 'center'
     },
-    text: {
-        fontSize: 30,
-        margin: 50,
-        justifyContent: 'center',
-    }
 });

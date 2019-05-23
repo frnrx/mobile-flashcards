@@ -1,27 +1,58 @@
 import React from 'react';
 import { StyleSheet, Text, View, FlatList, TouchableOpacity } from 'react-native';
-import { deckList } from '../utils/api.js'
+import { getDecks, clearAllData, logAllData } from '../utils/api.js'
 
 export default class DeckList extends React.Component {
 
-    // _onPress = () => {
-    //     this.props.navigation.navigate('AddDeck')
-    // }
+    state = {
+        deckList: undefined
+    }
+
+    componentWillMount() {
+        let deckList
+        getDecks().then((res) => {
+            deckList = res
+            this.setState({
+                deckList: deckList
+            })
+        })
+        // clearAllData()
+        // deckList.map((item) => console.log('ITEM: '+item));
+    }
+
+    checkUpdate = () => {
+        getDecks().then((res) => {
+            res !== this.state.deckList
+                ? this.setState({ deckList: res })
+                : null
+        })
+    }
 
     render() {
-        const {navigate} = this.props.navigation;
-
+        const { navigate } = this.props.navigation;
+        const { deckList } = this.state;
+        // console.log(this.state);
+        this.checkUpdate()
+        // logAllData()
         return (
             <View style={styles.container}>
-                <FlatList
-                    data={deckList}
-                    renderItem={({ item }) =>
-                        <TouchableOpacity style={styles.card} onPress={() => navigate('DeckView')} key={item.id}>
-                            <Text style={styles.title}>{item.title}</Text>
-                            <Text>{item.cards.length} cards</Text>
-                        </TouchableOpacity>
-                    }
-                />
+                {deckList === undefined
+                    ? <Text>You don't have any decks yet.</Text>
+                    : <FlatList
+                        data={deckList}
+                        renderItem={({ item }) => {
+                            item = JSON.parse(item[1])
+                            // console.log('ITEMMMMM :'+JSON.parse(item[1]).title);
+                            return(
+                                <TouchableOpacity style={styles.card} onPress={() => navigate('DeckView', item)} key={item.title}>
+                                    <Text style={styles.title}>{item.title}</Text>
+                                    <Text>{item.cards.push()} cards</Text>
+                                </TouchableOpacity>
+                            )
+                        }
+                        }
+                    />
+                }
             </View>
         );
     }

@@ -3,6 +3,7 @@ import { createBottomTabNavigator, createAppContainer, createStackNavigator } fr
 import DeckList from './DeckList'
 import AddDeck from './AddDeck'
 import DeckView from './DeckView'
+import AddCard from './AddCard'
 
 const TabNavigator = createBottomTabNavigator({
     'Deck List': DeckList,
@@ -12,6 +13,7 @@ const TabNavigator = createBottomTabNavigator({
 const MainNavigator = createStackNavigator({
     Home: TabNavigator,
     DeckView: {screen: DeckView},
+    AddCard: {screen: AddCard}
 });
 
 export default createAppContainer(MainNavigator);
