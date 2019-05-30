@@ -8,13 +8,13 @@ export default class DeckView extends React.Component {
     deck: {}
   }
 
-  _onPress = () => {
-    const { title } = this.props.navigation.state.params
-    console.log('PRESSED ' + title);
-    this.props.navigation.navigate('AddCard', title)
-    // console.log(this.props.navigation);
+  // _onPress = () => {
+  //   const { title } = this.props.navigation.state.params
+  //   console.log('PRESSED ' + title);
+  //   this.props.navigation.navigate('AddCard', title)
+  //   // console.log(this.props.navigation);
 
-  }
+  // }
 
   componentDidMount() {
     const { title } = this.props.navigation.state.params
@@ -52,12 +52,12 @@ export default class DeckView extends React.Component {
       <View style={styles.container}>
         <Text style={styles.title}>{title}</Text>
         <Text style={{ fontSize: 20, marginBottom: 40 }}>{cards.push()} cards</Text>
-        <TouchableOpacity style={styles.button} onPress={() => this._onPress()}>
+        <TouchableOpacity style={styles.button} onPress={() => navigate('AddCard', title)}>
           <Text style={{ fontSize: 20 }}>Add Card</Text>
         </TouchableOpacity>
         {lenght === 0
           ? null
-          : <TouchableOpacity style={styles.button}><Text style={{ fontSize: 20 }}>Start Quiz</Text></TouchableOpacity>}
+          : <TouchableOpacity style={styles.button} onPress={() => navigate('Quiz', cards)}><Text style={{ fontSize: 20 }}>Start Quiz</Text></TouchableOpacity>}
       </View>
     );
   }

@@ -11,9 +11,8 @@ export default class AddDeck extends React.Component {
     _onPress = () => {
         if(this.state.text !== "")
         {
-            saveDeckTitle(this.state.text)
-            this.props.navigation.goBack()            
-        
+            let deck = saveDeckTitle(this.state.text)
+            this.props.navigation.navigate('DeckView', deck)
         }
         else{
             Alert.alert(

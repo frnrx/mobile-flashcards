@@ -29,6 +29,7 @@ export function saveDeckTitle(title) {
     console.log('SAVE DECK: '+JSON.stringify(deck));
     
     storeData(deck)
+    return deck
 }
 
 export function addCardToDeck(deckTitle, question, answer) {
