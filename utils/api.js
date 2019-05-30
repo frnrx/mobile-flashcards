@@ -19,6 +19,7 @@ const initialDeckList = {
 }
 
 function formatDeck(title) {
+    // let date = Date.now()
     let formattedDeck = {title:title,cards:[]}
     return formattedDeck
 }
@@ -28,6 +29,23 @@ export function saveDeckTitle(title) {
     console.log('SAVE DECK: '+JSON.stringify(deck));
     
     storeData(deck)
+}
+
+export function addCardToDeck(deckTitle, question, answer) {
+    console.log('SAVE CARD: '+question+'     '+answer);
+    const card = {
+        "question": question,
+        "answer": answer
+    }
+    let newDeck = {}
+    getData(deckTitle)
+        .then((deck) => {
+            newDeck = { ...JSON.parse(deck) }
+            newDeck.cards.push(card)
+            // console.log('HEREEEEE '+newDeck.cards[0]);
+            storeData(newDeck)
+        })
+    
 }
 
 export function getDecks() {
@@ -55,14 +73,12 @@ export const clearAllData = async () => {
 
 
 const storeData = async (deck) => {    
-    console.log(deck.title);
-    
+    console.log(deck.title);  
     try {
         await AsyncStorage.setItem(deck.title, JSON.stringify(deck))
     } catch (e) {
         console.log('STORE DATA ERRO: '+e);
     }
-    getAllData()
 }
 
 const getAllData = async () => {
@@ -74,15 +90,6 @@ const getAllData = async () => {
         console.log('GET ALL DATA ERRO: '+error)
     }
 }
-
-// const getAllData = () => {
-//     AsyncStorage.getAllKeys()
-//             .then((keys) => {
-//                 let items = AsyncStorage.multiGet(keys)
-//                 console.log('KEYS: '+keys); 
-//                 return items
-//             })
-// }
 
 
 const getData = async (title) => {

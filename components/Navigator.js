@@ -12,8 +12,11 @@ const TabNavigator = createBottomTabNavigator({
 
 const MainNavigator = createStackNavigator({
     Home: TabNavigator,
-    DeckView: {screen: DeckView},
-    AddCard: {screen: AddCard}
+    DeckView: {
+        screen: DeckView
+    },
+    AddCard: {
+        screen: AddCard
+    },
 });
-
 export default createAppContainer(MainNavigator);

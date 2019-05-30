@@ -1,43 +1,43 @@
 import React from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Alert } from 'react-native';
-import { addDeck } from '../utils/api.js'
+import { addCardToDeck } from '../utils/api.js'
 
 export default class AddCard extends React.Component {
 
     state = {
-        text: ""
+        question: "",
+        answer: ""
     }
 
     _onPress = () => {
-        if(this.state.text !== "")
+        if(this.state.question !== "" && this.state.answer !== "")
         {
-            addDeck(this.state.text)
+            addCardToDeck(this.props.navigation.state.params, this.state.question, this.state.answer)
             this.props.navigation.goBack()            
         }
         else{
             Alert.alert(
-                'Title Undefined',
-                'Please, enter the title of the deck.',
+                'Undefined Field',
+                'Please, enter the question and the answer of the card.',
                   {text: 'OK', onPress: () => console.log('OK Pressed')},
               );
         }
         console.log('pressed');
     }
-
-    render() {
+    
+    render() {        
         return (
-
             <View style={styles.container}>
                 <TextInput
                     placeholder='Question'
                     style={styles.input}
-                    onChangeText={(text) => this.setState({ text })}
+                    onChangeText={(question) => this.setState({ 'question': question })}
                     value={this.state.text}
                 />
                 <TextInput
                     placeholder='Answer'
                     style={styles.input}
-                    onChangeText={(text) => this.setState({ text })}
+                    onChangeText={(answer) => this.setState({ 'answer': answer })}
                     value={this.state.text}
                 />
                 <TouchableOpacity style={styles.input} onPress={this._onPress}><Text>Submit</Text></TouchableOpacity>
