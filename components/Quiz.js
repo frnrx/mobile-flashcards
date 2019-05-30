@@ -11,12 +11,15 @@ export default class Quiz extends Component {
 
     _onPress = (type) => {
         if (type === 'correct' || type === 'incorrect') {
-            let newArray = this.state.answers
             let currentCount = this.state.count
-            newArray.push(type)
-            console.log(newArray);
+            if (type === 'correct') {
+                let newArray = this.state.answers
+                newArray.push(type)
+                this.setState({
+                    answers: newArray,
+                })
+            }
             this.setState({
-                answers: newArray,
                 count: currentCount + 1
             })
             console.log(this.state);
@@ -31,8 +34,10 @@ export default class Quiz extends Component {
 
     render() {
         const cards = this.props.navigation.state.params
-        const { count, side } = this.state
+        const { count, side, answers } = this.state
         // countPlus = count + 1
+        console.log('CARDSSSS: ' + JSON.stringify(cards));
+
         lenght = cards.push()
 
         return (
@@ -48,7 +53,7 @@ export default class Quiz extends Component {
                                 }
                             </Text>
                             <TouchableOpacity style={styles.linkButton} onPress={() => this._onPress('switch')}>
-                                <Text style={{color: 'red'}}>
+                                <Text style={{ color: 'red' }}>
                                     {side
                                         ? 'Answer'
                                         : 'Question'
@@ -56,18 +61,22 @@ export default class Quiz extends Component {
                                 </Text>
                             </TouchableOpacity>
                             <TouchableOpacity style={styles.greenButton} onPress={() => this._onPress('correct')}>
-                                <Text style={{color: 'white'}}>Correct</Text>
+                                <Text style={{ color: 'white' }}>Correct</Text>
                             </TouchableOpacity>
                             <TouchableOpacity style={styles.redButton} onPress={() => this._onPress('incorrect')}>
-                                <Text style={{color: 'white'}}>Incorrect</Text>
+                                <Text style={{ color: 'white' }}>Incorrect</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
                     : <View style={styles.box}>
                         <Text style={styles.title}>DONE!</Text>
+                        <Text style={styles.subtitle}>{`You answered ${((answers.push()) * 100 / (cards.push())).toFixed(0)}% of the questions correctly.`}</Text>
+                        <TouchableOpacity style={styles.backButton} onPress={() => this.setState({ count: 0 })}>
+                            <Text style={{ color: 'white' }}>Repeat Quiz</Text>
+                        </TouchableOpacity>
                         <TouchableOpacity style={styles.backButton} onPress={() => this.props.navigation.goBack()}>
-                                <Text style={{color: 'white'}}>Back</Text>
-                            </TouchableOpacity>
+                            <Text style={{ color: 'white' }}>Back to Deck</Text>
+                        </TouchableOpacity>
                     </View>
                 }
             </View>
@@ -95,6 +104,13 @@ const styles = StyleSheet.create({
         margin: 20,
         textTransform: 'uppercase',
         fontSize: 40
+    },
+    subtitle: {
+        margin: 40,
+        marginBottom: 80,
+        textAlign: 'center',
+        textTransform: 'uppercase',
+        fontSize: 20
     },
     greenButton: {
         height: 60,
