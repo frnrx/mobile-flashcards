@@ -11,7 +11,7 @@ export default class DeckList extends React.Component {
         count: 0
     }
 
-    componentWillMount() {
+    loadDecks = () => {
         getDecks().then((res) => {
             let decksArray = []
             for (let i = 0; i < res.length; i++) {
@@ -26,19 +26,12 @@ export default class DeckList extends React.Component {
         })
     }
 
+    componentWillMount() {
+        this.loadDecks()
+    }
+
     componentDidUpdate() {
-        getDecks().then((res) => {
-            let decksArray = []
-            for (let i = 0; i < res.length; i++) {
-                if (res[i][0] !== NOTIFICATION_KEY) {
-                    decksArray.push(res[i][1])
-                }
-            }
-            console.log(decksArray);
-            decksArray !== this.state.deckList
-                ? this.setState({ deckList: decksArray })
-                : null
-        })
+        this.loadDecks()
     }
 
     render() {
