@@ -68,7 +68,7 @@ export default class Quiz extends Component {
                     : <View style={styles.box}>
                         <Text style={styles.title}>DONE!</Text>
                         <Text style={styles.subtitle}>{`You answered ${((answers.push()) * 100 / (cards.push())).toFixed(0)}% of the questions correctly.`}</Text>
-                        <TouchableOpacity style={styles.backButton} onPress={() => this.setState({ count: 0 })}>
+                        <TouchableOpacity style={styles.backButton} onPress={() => this.setState({ count: 0, answers: [] })}>
                             <Text style={{ color: 'white' }}>Repeat Quiz</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.backButton} onPress={() => this.props.navigation.goBack()}>
