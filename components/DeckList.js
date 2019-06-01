@@ -1,30 +1,42 @@
 import React from 'react';
 import { StyleSheet, Text, View, FlatList, TouchableOpacity } from 'react-native';
-import { getDecks, clearAllData, logAllData } from '../utils/api.js'
+import { getDecks } from '../utils/api.js'
+import { NOTIFICATION_KEY } from '../utils/helpers.js'
 
 export default class DeckList extends React.Component {
 
     state = {
-        deckList: undefined,
-        loading: true
+        deckList: 'loading',
+        loading: true,
+        count: 0
     }
 
     componentWillMount() {
-        let deckList
         getDecks().then((res) => {
-            deckList = res
-            this.setState({
-                deckList: deckList
-            })
+            let decksArray = []
+            for (let i = 0; i < res.length; i++) {
+                if (res[i][0] !== NOTIFICATION_KEY) {
+                    decksArray.push(res[i][1])
+                }
+            }
+            console.log(decksArray);
+            decksArray !== this.state.deckList
+                ? this.setState({ deckList: decksArray })
+                : null
         })
-        // clearAllData()
-        // deckList.map((item) => console.log('ITEM: '+item));
     }
 
-    checkUpdate = () => {
+    componentDidUpdate() {
         getDecks().then((res) => {
-            res !== this.state.deckList
-                ? this.setState({ deckList: res })
+            let decksArray = []
+            for (let i = 0; i < res.length; i++) {
+                if (res[i][0] !== NOTIFICATION_KEY) {
+                    decksArray.push(res[i][1])
+                }
+            }
+            console.log(decksArray);
+            decksArray !== this.state.deckList
+                ? this.setState({ deckList: decksArray })
                 : null
         })
     }
@@ -32,27 +44,27 @@ export default class DeckList extends React.Component {
     render() {
         const { navigate } = this.props.navigation;
         const { deckList } = this.state;
-        // console.log(this.state);
-        this.checkUpdate()
-        // logAllData()
+
         return (
             <View style={styles.container}>
-                {deckList === undefined
-                    ? <Text>You don't have any decks yet.</Text>
-                    : <FlatList
-                        data={deckList}
-                        renderItem={({ item }) => {
-                            item = JSON.parse(item[1])
-                            // console.log('ITEMMMMM :'+JSON.parse(item[1]).title);
-                            return (
-                                <TouchableOpacity style={styles.card} onPress={() => navigate('DeckView', item)} key={item.title}>
-                                    <Text style={styles.title}>{item.title}</Text>
-                                    <Text>{item.cards.push()} cards</Text>
-                                </TouchableOpacity>
-                            )
-                        }
-                        }
-                    />
+                {deckList !== undefined
+                    ? (deckList === 'loading'
+                        ? <Text>Loading decks...</Text>
+                        : <FlatList
+                            data={deckList}
+                            renderItem={({ item }) => {
+                                item = JSON.parse(item)
+                                // console.log(item);
+                                return (
+                                    <TouchableOpacity style={styles.card} onPress={() => navigate('DeckView', item)} key={item.title}>
+                                        <Text style={styles.title}>{item.title}</Text>
+                                        <Text >{item.cards.push()} cards</Text>
+                                    </TouchableOpacity>
+                                )
+                            }
+                            }
+                        />)
+                    : <Text>You don't have any decks yet. :(</Text>
                 }
             </View>
         );

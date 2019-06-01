@@ -22,7 +22,6 @@ export default class Quiz extends Component {
             this.setState({
                 count: currentCount + 1
             })
-            console.log(this.state);
         }
         if (type === 'switch') {
             let currentSide = this.state.side
@@ -35,8 +34,6 @@ export default class Quiz extends Component {
     render() {
         const cards = this.props.navigation.state.params
         const { count, side, answers } = this.state
-        // countPlus = count + 1
-        console.log('CARDSSSS: ' + JSON.stringify(cards));
 
         lenght = cards.push()
 
