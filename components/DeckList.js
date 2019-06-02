@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, FlatList, TouchableOpacity } from 'react-native';
-import { getDecks } from '../utils/api.js'
+import { getAllData } from '../utils/api.js'
 import { NOTIFICATION_KEY } from '../utils/helpers.js'
 
 export default class DeckList extends React.Component {
@@ -12,14 +12,13 @@ export default class DeckList extends React.Component {
     }
 
     loadDecks = () => {
-        getDecks().then((res) => {
+        getAllData().then((res) => {
             let decksArray = []
             for (let i = 0; i < res.length; i++) {
                 if (res[i][0] !== NOTIFICATION_KEY) {
                     decksArray.push(res[i][1])
                 }
             }
-            console.log(decksArray);
             decksArray !== this.state.deckList
                 ? this.setState({ deckList: decksArray })
                 : null
@@ -47,7 +46,6 @@ export default class DeckList extends React.Component {
                             data={deckList}
                             renderItem={({ item }) => {
                                 item = JSON.parse(item)
-                                // console.log(item);
                                 return (
                                     <TouchableOpacity style={styles.card} onPress={() => navigate('DeckView', item)} key={item.title}>
                                         <Text style={styles.title}>{item.title}</Text>
@@ -56,6 +54,7 @@ export default class DeckList extends React.Component {
                                 )
                             }
                             }
+                            keyExtractor={(item, index) => index.toString()}
                         />)
                     : <Text>You don't have any decks yet. :(</Text>
                 }
