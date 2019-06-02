@@ -1,8 +1,10 @@
-# Would You Rather Project
+# Mobile Flashcards
 
 # About
 
 This is a React Native project for Udacity's React course.
+
+The app works on Android and iOS.
 
 This app was made to be a study tool in the form of flashcards.
 
