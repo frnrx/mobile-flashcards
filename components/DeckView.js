@@ -1,8 +1,5 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import { getDeck } from '../utils/api.js'
-import { setLocalNotification, clearLocalNotification } from '../utils/helpers'
-
 
 export default class DeckView extends React.Component {
 
@@ -11,50 +8,24 @@ export default class DeckView extends React.Component {
   }
 
   _onPress = () => {
-
-    // clearLocalNotification().then(setLocalNotification)
-
     this.props.navigation.navigate('Quiz', this.props.navigation.state.params.cards)
   }
-//   componentDidMount() {
-//     const { title } = this.props.navigation.state.params
-//     const { deck } = this.state
-
-//     getDeck(title).then((res) => {
-//       deck = res
-//         this.setState({
-//           deck: deck
-//         })
-//     })
-// }
-
-//   checkUpdate = () => {
-//     const { title } = this.props.navigation.state.params
-
-//     getDeck(title).then((res) => {
-//       res !== this.state.deck
-//         ? this.setState({ deck: res })
-//         : null
-//     })
-//   }
 
   render() {
-    const { title, cards} = this.props.navigation.state.params
+    const { title, cards } = this.props.navigation.state.params
     const { navigate } = this.props.navigation
     const lenght = cards.push()
-
-    // this.checkUpdate()
 
     return (
       <View style={styles.container}>
         <Text style={styles.title}>{title}</Text>
-        <Text style={{ fontSize: 20, marginBottom: 40 }}>{cards.push()} cards</Text>
+        <Text style={styles.cardsText}>{cards.push()} cards</Text>
         <TouchableOpacity style={styles.button} onPress={() => navigate('AddCard', title)}>
-          <Text style={{ fontSize: 20 }}>Add Card</Text>
+          <Text style={styles.text}>Add Card</Text>
         </TouchableOpacity>
         {lenght === 0
           ? null
-          : <TouchableOpacity style={styles.button} onPress={() => this._onPress()}><Text style={{ fontSize: 20 }}>Start Quiz</Text></TouchableOpacity>}
+          : <TouchableOpacity style={styles.button} onPress={() => this._onPress()}><Text style={styles.text}>Start Quiz</Text></TouchableOpacity>}
       </View>
     );
   }
@@ -80,5 +51,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     margin: 5
+  },
+  cardsText: {
+    fontSize: 20, 
+    marginBottom: 40
+  },
+  text: {
+    fontSize: 20
   }
 });

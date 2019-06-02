@@ -12,16 +12,6 @@ export const clearAllData = async () => {
     }
 }
 
-// export const logAllData = async () => {
-//     try {
-//         const keys = await AsyncStorage.getAllKeys()
-//         const items = await AsyncStorage.multiGet(keys)
-//         console.log('CONSOLE LOG ALL DATA: ' + items)
-//     } catch (error) {
-//         console.log('CONSOLE LOG ALL DATA ERRO: ' + error)
-//     }
-// }
-
 export function clearLocalNotification() {
     return AsyncStorage.removeItem(NOTIFICATION_KEY)
         .then(Notifications.cancelAllScheduledNotificationsAsync)

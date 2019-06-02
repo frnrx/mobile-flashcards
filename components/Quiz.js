@@ -31,17 +31,21 @@ export default class Quiz extends Component {
         }
     }
 
+    _updateQuiz = () => {
+        this.setState({ count: 0, answers: [] })
+    }
+
     render() {
         const cards = this.props.navigation.state.params
         const { count, side, answers } = this.state
 
-        lenght = cards.push()
+        length = cards.push()
 
         return (
             <View style={styles.container}>
-                {count < lenght
+                {count < length
                     ? <View style={styles.container}>
-                        <Text style={styles.count}>{`${count + 1} / ${lenght}`}</Text>
+                        <Text style={styles.count}>{`${count + 1} / ${length}`}</Text>
                         <View style={styles.box}>
                             <Text style={styles.title}>
                                 {side
@@ -58,21 +62,21 @@ export default class Quiz extends Component {
                                 </Text>
                             </TouchableOpacity>
                             <TouchableOpacity style={styles.greenButton} onPress={() => this._onPress('correct')}>
-                                <Text style={{ color: 'white' }}>Correct</Text>
+                                <Text style={styles.textButton}>Correct</Text>
                             </TouchableOpacity>
                             <TouchableOpacity style={styles.redButton} onPress={() => this._onPress('incorrect')}>
-                                <Text style={{ color: 'white' }}>Incorrect</Text>
+                                <Text style={styles.textButton}>Incorrect</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
                     : <View style={styles.box}>
                         <Text style={styles.title}>DONE!</Text>
                         <Text style={styles.subtitle}>{`You answered ${((answers.push()) * 100 / (cards.push())).toFixed(0)}% of the questions correctly.`}</Text>
-                        <TouchableOpacity style={styles.backButton} onPress={() => this.setState({ count: 0, answers: [] })}>
-                            <Text style={{ color: 'white' }}>Repeat Quiz</Text>
+                        <TouchableOpacity style={styles.backButton} onPress={() => this._updateQuiz()}>
+                            <Text style={styles.textButton}>Repeat Quiz</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.backButton} onPress={() => this.props.navigation.goBack()}>
-                            <Text style={{ color: 'white' }}>Back to Deck</Text>
+                            <Text style={styles.textButton}>Back to Deck</Text>
                         </TouchableOpacity>
                     </View>
                 }
@@ -149,4 +153,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         margin: 15
     },
+    textButton: {
+        color: 'white'
+    }
 });

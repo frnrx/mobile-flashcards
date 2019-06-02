@@ -12,6 +12,7 @@ export default class AddDeck extends React.Component {
         if(this.state.text !== "")
         {
             let deck = saveDeckTitle(this.state.text)
+            this.setState({ text: '' })
             this.props.navigation.navigate('DeckView', deck)
         }
         else{
@@ -24,6 +25,10 @@ export default class AddDeck extends React.Component {
         console.log('pressed');
     }
 
+    _onChange = (text) => {
+        this.setState({ text })
+    }
+
     render() {
         return (
 
@@ -31,7 +36,7 @@ export default class AddDeck extends React.Component {
                 <Text style={styles.text}>What's the title of your new deck?</Text>
                 <TextInput
                     style={styles.input}
-                    onChangeText={(text) => this.setState({ text })}
+                    onChangeText={(text) => this._onChange(text)}
                     value={this.state.text}
                 />
                 <TouchableOpacity style={styles.input} onPress={this._onPress}><Text>Submit</Text></TouchableOpacity>

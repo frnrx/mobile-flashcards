@@ -12,8 +12,7 @@ export default class AddCard extends React.Component {
     _onPress = () => {
         if(this.state.question !== "" && this.state.answer !== "")
         {
-            addCardToDeck(this.props.navigation.state.params, this.state.question, this.state.answer)
-            this.props.navigation.goBack()            
+            addCardToDeck(this.props.navigation.state.params, this.state.question, this.state.answer, this.props.navigation)
         }
         else{
             Alert.alert(
@@ -25,19 +24,28 @@ export default class AddCard extends React.Component {
         console.log('pressed');
     }
     
+    _onChange = (input, text) => {
+        if(input === 'question'){
+            this.setState({ 'question': text })
+        }
+        else{
+            this.setState({ 'answer': text })
+        }
+    }
+
     render() {        
         return (
             <View style={styles.container}>
                 <TextInput
                     placeholder='Question'
                     style={styles.input}
-                    onChangeText={(question) => this.setState({ 'question': question })}
+                    onChangeText={(question) => this._onChange('question', question)}
                     value={this.state.text}
                 />
                 <TextInput
                     placeholder='Answer'
                     style={styles.input}
-                    onChangeText={(answer) => this.setState({ 'answer': answer })}
+                    onChangeText={(answer) => this._onChange('answer', answer)}
                     value={this.state.text}
                 />
                 <TouchableOpacity style={styles.input} onPress={this._onPress}><Text>Submit</Text></TouchableOpacity>
